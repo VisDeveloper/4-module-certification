@@ -3,6 +3,7 @@ import os
 
 BOOKS_FILE = "books.json"
 
+
 def load_books() -> list:
     if not os.path.exists(BOOKS_FILE):
         return []
@@ -10,15 +11,17 @@ def load_books() -> list:
     with open(BOOKS_FILE, "r", encoding="utf-8") as save_file:
         return json.load(save_file)
 
-def save_books(books : list):
+
+def save_books(books: list):
     with open(BOOKS_FILE, "w", encoding="utf-8") as save_file:
         json.dump(books, save_file, indent=4, ensure_ascii=False)
 
-def add_book(books : list):
+
+def add_book(books: list):
     print()
 
     author = input("Введите автора: ")
-    name = input("Ввведите название: ")
+    name = input("Введите название: ")
 
     for book in books:
         if book["author"] == author and book["name"] == name:
@@ -39,22 +42,32 @@ def add_book(books : list):
     date = input("Введите дату: ")
 
     books.append({
-        "author" : author,
-        "name" : name,
-        "rate" : rate,
-        "date" : date,
+        "author": author,
+        "name": name,
+        "rate": rate,
+        "date": date,
     })
 
-def print_books(books : list):
+    save_books(books)
+    print(f"\nКнига '{name}' добавлена!")
+
+
+def print_books(books: list):
     print()
+
+    if not books:
+        print("Нет книг в библиотеке")
+        return
 
     for book in books:
         print(f"'{book['name']}'")
-        print(f"    Автор:  {book["author"]}")
-        print(f"    Дата:  {book["date"]}")
-        print(f"    Оценка:  {book["rate"]}")
+        print(f"    Автор:  {book['author']}")
+        print(f"    Дата:   {book['date']}")
+        print(f"    Оценка: {book['rate']}")
+        print()
 
-def calculate_average_rating(books : list):
+
+def calculate_average_rating(books: list):
     print()
 
     if not books:
@@ -66,10 +79,15 @@ def calculate_average_rating(books : list):
 
     average_rating = rating_sum / rating_len
 
-    print(f"Средняя оценка книг: {average_rating}")
+    print(f"Средняя оценка книг: {average_rating:.2f}")
 
-def author_statistics(books : list):
+
+def author_statistics(books: list):
     print()
+
+    if not books:
+        print("Нет книг для статистики")
+        return
 
     author_books_count = {}
     for book in books:
@@ -84,6 +102,37 @@ def author_statistics(books : list):
         print(f"Автор: {author}")
         print(f"    Количество книг: {count}")
         print()
+
+
+def remove_book(books: list):
+    print()
+
+    if not books:
+        print("Библиотека пустая!")
+        return
+
+    print("Доступные книги: ")
+
+    for index, book in enumerate(books):
+        print(f"{index}. {book['name']}")
+
+    print()
+
+    user_book_id = input("Введите индекс книги: ")
+
+    if not user_book_id.isnumeric():
+        print("Введите число!")
+        return
+
+    user_book_id = int(user_book_id)
+
+    if user_book_id >= len(books):
+        print("Введите правильный индекс!")
+        return
+
+    removed_book = books.pop(user_book_id)
+    save_books(books)
+    print(f"\nКнига '{removed_book['name']}' удалена!")
 
 
 def main():
@@ -102,7 +151,7 @@ def main():
         match choice:
             case "1":
                 add_book(books)
-                save_books(books)
+                books = load_books()
 
             case "2":
                 print_books(books)
@@ -114,7 +163,8 @@ def main():
                 author_statistics(books)
 
             case "5":
-                print("В разработке")
+                remove_book(books)
+                books = load_books()
 
             case "6":
                 save_books(books)
@@ -123,6 +173,7 @@ def main():
 
             case _:
                 print("Неверный выбор!")
+
 
 if __name__ == "__main__":
     main()
