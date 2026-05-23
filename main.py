@@ -39,7 +39,7 @@ def add_book(books: list):
         print("\nВведите число от 1 до 5!")
         return
 
-    date = input("Введите дату: ")
+    date = input("Введите дату прочтения: ")
 
     books.append({
         "author": author,
