@@ -15,17 +15,25 @@ def save_books(books : list):
         json.dump(books, save_file, indent=4, ensure_ascii=False)
 
 def add_book(books : list):
+    print()
+
     author = input("Введите автора: ")
     name = input("Ввведите название: ")
+
+    for book in books:
+        if book["author"] == author and book["name"] == name:
+            print("\nКнига с тем же автором и названием уже существует!")
+            return
+
     rate = input("Введите оценку: ")
 
     if not rate.isnumeric():
-        print("Введите число от 1 до 5!")
+        print("\nВведите число от 1 до 5!")
         return
 
     rate = int(rate)
     if not (1 <= rate <= 5):
-        print("Введите число от 1 до 5!")
+        print("\nВведите число от 1 до 5!")
         return
 
     date = input("Введите дату: ")
