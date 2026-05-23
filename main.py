@@ -62,7 +62,7 @@ def print_books(books: list):
     for book in books:
         print(f"'{book['name']}'")
         print(f"    Автор:  {book['author']}")
-        print(f"    Дата:   {book['date']}")
+        print(f"    Дата прочтения:   {book['date']}")
         print(f"    Оценка: {book['rate']}")
         print()
 
