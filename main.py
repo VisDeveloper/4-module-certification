@@ -45,6 +45,47 @@ def add_book(books : list):
         "date" : date,
     })
 
+def print_books(books : list):
+    print()
+
+    for book in books:
+        print(f"'{book['name']}'")
+        print(f"    Автор:  {book["author"]}")
+        print(f"    Дата:  {book["date"]}")
+        print(f"    Оценка:  {book["rate"]}")
+
+def calculate_average_rating(books : list):
+    print()
+
+    if not books:
+        print("Библиотека пустая!")
+        return
+
+    rating_len = len(books)
+    rating_sum = sum(book["rate"] for book in books)
+
+    average_rating = rating_sum / rating_len
+
+    print(f"Средняя оценка книг: {average_rating}")
+
+def author_statistics(books : list):
+    print()
+
+    author_books_count = {}
+    for book in books:
+        author = book["author"]
+
+        if author not in author_books_count:
+            author_books_count[author] = 0
+
+        author_books_count[author] += 1
+
+    for author, count in author_books_count.items():
+        print(f"Автор: {author}")
+        print(f"    Количество книг: {count}")
+        print()
+
+
 def main():
     books = load_books()
 
@@ -61,15 +102,16 @@ def main():
         match choice:
             case "1":
                 add_book(books)
+                save_books(books)
 
             case "2":
-                print("В разработке")
+                print_books(books)
 
             case "3":
-                print("В разработке")
+                calculate_average_rating(books)
 
             case "4":
-                print("В разработке")
+                author_statistics(books)
 
             case "5":
                 print("В разработке")
