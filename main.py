@@ -18,10 +18,8 @@ def save_books(books: list):
 
 
 def add_book(books: list):
-    print()
-
     author = input("Введите автора: ")
-    name = input("Введите название: ")
+    name = input("Введите название книги: ")
 
     for book in books:
         if book["author"] == author and book["name"] == name:
@@ -36,8 +34,14 @@ def add_book(books: list):
 
     rate = int(rate)
     if not (1 <= rate <= 5):
-        print("\nВведите число от 1 до 5!")
-        return
+        yes_or_know = input("Был введено число, не находящееся в промежутке [1; 5], ограничить число? (да/нет): ")
+
+        if yes_or_know in ["нет", "0", "n", "no", ""]:
+            print("Отказ...")
+            return
+
+        rate = max(1, min(rate, 5))
+        print(f"Оценка: {rate}")
 
     date = input("Введите дату прочтения: ")
 
@@ -53,8 +57,6 @@ def add_book(books: list):
 
 
 def print_books(books: list):
-    print()
-
     if not books:
         print("Нет книг в библиотеке")
         return
@@ -68,8 +70,6 @@ def print_books(books: list):
 
 
 def calculate_average_rating(books: list):
-    print()
-
     if not books:
         print("Библиотека пустая!")
         return
@@ -83,8 +83,6 @@ def calculate_average_rating(books: list):
 
 
 def author_statistics(books: list):
-    print()
-
     if not books:
         print("Нет книг для статистики")
         return
@@ -100,13 +98,9 @@ def author_statistics(books: list):
 
     for author, count in author_books_count.items():
         print(f"Автор: {author}")
-        print(f"    Количество книг: {count}")
-        print()
-
+        print(f"    Количество книг: {count}\n")
 
 def remove_book(books: list):
-    print()
-
     if not books:
         print("Библиотека пустая!")
         return
@@ -144,9 +138,10 @@ def main():
         print("3. Средняя оценка")
         print("4. Статистика по авторам")
         print("5. Удалить книгу")
-        print("6. Выход")
+        print("6. Выход\n")
 
         choice = input("Выберите действие: ")
+        print()
 
         match choice:
             case "1":
@@ -168,7 +163,7 @@ def main():
 
             case "6":
                 save_books(books)
-                print("Выход...")
+                print("Выход из программы...")
                 break
 
             case _:
