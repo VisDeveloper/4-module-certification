@@ -79,7 +79,7 @@ def calculate_average_rating(books: list):
 
     average_rating = rating_sum / rating_len
 
-    print(f"Средняя оценка книг: {average_rating:.2f}")
+    print(f"Средняя оценка всех книг: {average_rating:.2f}")
 
 
 def author_statistics(books: list):
@@ -108,7 +108,7 @@ def remove_book(books: list):
     print("Доступные книги: ")
 
     for index, book in enumerate(books):
-        print(f"{index}. {book['name']}")
+        print(f"{index+1}. {book['name']}")
 
     print()
 
@@ -120,13 +120,12 @@ def remove_book(books: list):
 
     user_book_id = int(user_book_id)
 
-    if user_book_id >= len(books):
-        print("Введите правильный индекс!")
-        return
-
-    removed_book = books.pop(user_book_id)
-    save_books(books)
-    print(f"\nКнига '{removed_book['name']}' удалена!")
+    try:
+        removed_book = books.pop(user_book_id - 1)
+        save_books(books)
+        print(f"\nКнига '{removed_book['name']}' удалена!")
+    except IndexError:
+        print(f"Книга с индексом {user_book_id} не найдена!") 
 
 
 def main():
